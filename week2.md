@@ -52,6 +52,42 @@
 - **퀘스트**: AI로 다이어그램 마스터하기
 - **선택 이유**: 피어 컴파일링 과정에서 글로만 작성된 README, 학습 정리를 읽는 것보다 UML과 같이 시각화 된 자료가 있으면 전체 내용을 이해하는 것이 더 쉽게 느껴집니다. 이번 미션을 통해 함께 피어 피드백을 진행하는 팀원들에게 더 쉽게 이해할 수 있는 시각화 된 자료를 제공해 보고자 합니다.
 - **결과**: 매 미션마다 구현을 완성하고 완성된 구조를 바탕으로 AI를 활용해 UML 및 시퀀스 흐름을 시각화 자료로 준비하였습니다. 이를 README.md에 추가하여 피어 컴파일링 하는 과정에서 전체 코드의 흐름을 쉽게 파악할 수 있도록 구성하였습니다.
+
+<img width="2073" height="1024" alt="uml" src="https://gist.github.com/user-attachments/assets/b6420866-80e4-4a94-88e9-3cd9e7c6f089" />
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Simulator as GitSimulator
+    participant Analyzer
+    participant Parser as CommandParser
+    participant Factory as CommandFactory
+    participant Command as CommitCommand
+    participant IndexReader
+    participant ObjectWriter
+    participant BranchReader
+    participant BranchWriter
+    participant LogWriter
+
+    User->>Simulator: 입력 "commit Initial commit"
+    Simulator->>Analyzer: execute("commit Initial commit")
+    Analyzer->>Parser: parse(command)
+    Parser-->>Analyzer: ParsedCommand(name="commit", args=["Initial commit"])
+    Analyzer->>Factory: makeCommand(parsed)
+    Factory-->>Analyzer: CommitCommand 객체
+    Analyzer->>Command: execute()
+    Command->>IndexReader: read() (인덱스 읽기)
+    Command->>ObjectWriter: write(treeData) (트리 오브젝트 저장)
+    Command->>BranchReader: readHead() (현재 HEAD/부모 커밋 확인)
+    Command->>ObjectWriter: write(commitData) (커밋 오브젝트 저장)
+    Command->>BranchWriter: write(branch, commitHash) (refs/heads 업데이트)
+    Command->>LogWriter: write(logEntry) (HEAD 로그 기록)
+    Command-->>Analyzer: "[master] <hash> Initial commit"
+    Analyzer-->>Simulator: 결과 문자열
+    Simulator-->>User: "[master] <hash> Initial commit"
+
+```
+
 - **인사이트**: 다이어그램을 AI에게 요청하기 위해서는 먼저 어떻게 프로젝트의 구조를 가지고 있는지 설명해야 합니다. 또는 전체 코드를 제공하고 AI가 유추할 수 있는 방식을 취해야 합니다. 저는 UML은 PlantUML 양식으로 시퀀스 다이어그램은 mermaid 양식으로 AI에게 요청을 하여 진행하였습니다. 각각의 다이어그램을 어떤 양식으로 표현할지 선택하는 것도 중요한 일이었습니다.
 - **느낀 점**: 자료 구조의 역할과 SOLID 원칙에 따라 코드를 분리하고 프로토콜(인터페이스)를 생성하는 과정에서 파일의 수가 많이 늘어나는 경우가 있었습니다. 이 때문에 코드를 하나씩 읽을 때 이 자료 구조가 어디서 어떻게 동작하는지 유추하기가 어려운 경우가 있었습니다. 하지만 UML을 제공함으로써 이 프로젝트의 구조를 파악하고 시퀀스 다이어그램을 통해 각 객체가 어떻게 상호 작용하는 지를 먼저 눈으로 확인할 수 있어 코드 구조를 파악하고 읽는데 용이했습니다.
 - **배운 점**: 글을 읽을 때 시각적인 자료의 활용이 얼마나 크게 읽는 이에게 영향을 주지는 확인할 수 있었습니다. 특히 코드를 하나씩 확인하기 전 전체 흐름을 확인할 수 있어 전체 흐름을 보고 이 코드가 어떤 역할을 할 것인지를 유추할 수 있었습니다.
