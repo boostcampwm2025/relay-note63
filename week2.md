@@ -53,7 +53,7 @@
 - **선택 이유**: 피어 컴파일링 과정에서 글로만 작성된 README, 학습 정리를 읽는 것보다 UML과 같이 시각화 된 자료가 있으면 전체 내용을 이해하는 것이 더 쉽게 느껴집니다. 이번 미션을 통해 함께 피어 피드백을 진행하는 팀원들에게 더 쉽게 이해할 수 있는 시각화 된 자료를 제공해 보고자 합니다.
 - **결과**: 매 미션마다 구현을 완성하고 완성된 구조를 바탕으로 AI를 활용해 UML 및 시퀀스 흐름을 시각화 자료로 준비하였습니다. 이를 README.md에 추가하여 피어 컴파일링 하는 과정에서 전체 코드의 흐름을 쉽게 파악할 수 있도록 구성하였습니다.
 
-<img width="2073" height="1024" alt="uml" src="https://gist.github.com/user-attachments/assets/b6420866-80e4-4a94-88e9-3cd9e7c6f089" />
+<img width="2073" height="1024" alt="Image" src="https://github.com/user-attachments/assets/37656de3-37de-43c5-a093-f5d32f24f7be" />
 
 ```mermaid
 sequenceDiagram
